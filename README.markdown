@@ -33,7 +33,7 @@ product = foldr (*) 1
 
 ```haskell
 depth :: Tree a -> Int
-depth (Node _ subTrees) = 1 + maximum subTrees
+depth (Node _ subTrees) = 1 + foldr max 0 subTrees
 
 size :: Tree a -> Int
 size (Node _ subTrees) = 1 + sum subTrees
@@ -54,7 +54,7 @@ depth :: Tree a -> Int
 depth = cata go
   where
     go :: TreeF a Int -> Int
-    go (NodeF _ subDepths) = 1 + maximum subDepths
+    go (NodeF _ subDepths) = 1 + foldr max 0 subDepths
 
 size :: Tree a -> Int
 size = cata go
@@ -67,7 +67,7 @@ In this example, the code is a bit longer, but it is correct. Did you spot the m
 
 ```haskell
 depth :: Tree a -> Int
-depth (Node _ subTrees) = 1 + maximum (fmap depth subTrees)
+depth (Node _ subTrees) = 1 + foldr max 0 (fmap depth subTrees)
 
 size :: Tree a -> Int
 size (Node _ subTrees) = 1 + sum (fmap size subTrees)
